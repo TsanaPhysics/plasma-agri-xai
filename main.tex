@@ -1,0 +1,75 @@
+\documentclass[11pt,twoside,openright]{book}
+
+% =========================================================================
+% RBRU LaTeX Textbook Builder Package for Plasma Physics & Agri-Environment
+% =========================================================================
+\usepackage{styles/rbru_plasma}
+
+\title{พลาสมาฟิสิกส์เพื่อการเกษตรและสิ่งแวดล้อม: จากทฤษฎีสู่นวัตกรรมความยั่งยืน}
+\author{ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา}
+\date{พ.ศ. 2569}
+
+\begin{document}
+
+% -------------------------------------------------------------------------
+% Front Matter (Cover, Inner Title, Preface, Table of Contents)
+% -------------------------------------------------------------------------
+\frontmatter
+
+% 1. Outer Full-Bleed Cover (Academic Book Cover Architect standard)
+\include{frontmatter/cover}
+
+% 2. Vector Inner Title Page (Dark-mode vector art with TikZ Bezier curves)
+\include{frontmatter/inner_title}
+
+% 3. Preface (คำนำ)
+\include{frontmatter/preface}
+
+% 4. Table of Contents & Lists
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\cleardoublepage
+
+% -------------------------------------------------------------------------
+% Main Matter (Chapters)
+% -------------------------------------------------------------------------
+\mainmatter
+
+% Part 1: พื้นฐานพลาสมาฟิสิกส์ เคมีพลาสมา และการวินิจฉัย
+\part{พื้นฐานพลาสมาฟิสิกส์ เคมีพลาสมา และการวินิจฉัย}
+\include{chapters/ch01}
+\include{chapters/ch02}
+\include{chapters/ch03}
+
+% Part 2: พลาสมาเพื่อการเกษตรแม่นยำและความมั่นคงทางอาหาร
+\part{พลาสมาเพื่อการเกษตรแม่นยำและความมั่นคงทางอาหาร}
+\include{chapters/ch04}
+\include{chapters/ch05}
+\include{chapters/ch06}
+
+% Part 3: เทคโนโลยีพลาสมาเพื่อสิ่งแวดล้อมและการดักจับคาร์บอน
+\part{เทคโนโลยีพลาสมาเพื่อสิ่งแวดล้อมและการดักจับคาร์บอน}
+\include{chapters/ch07}
+\include{chapters/ch08}
+\include{chapters/ch09}
+
+% Part 4: วิศวกรรมระบบ ปัญญาประดิษฐ์ และความยั่งยืนสู่อนาคต
+\part{วิศวกรรมระบบ ปัญญาประดิษฐ์ และความยั่งยืนสู่อนาคต}
+\include{chapters/ch10}
+\include{chapters/ch11}
+
+% -------------------------------------------------------------------------
+% Back Matter (References, Glossary, Index)
+% -------------------------------------------------------------------------
+\backmatter
+
+\include{references}
+
+\clearpage
+\addcontentsline{toc}{chapter}{ดัชนี}
+\printindex
+
+\end{document}

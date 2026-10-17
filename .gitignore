@@ -1,0 +1,18 @@
+# LaTeX temporary files
+*.aux
+*.log
+*.out
+*.toc
+*.idx
+*.ilg
+*.ind
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# OS & Temp files
+.DS_Store
+*.tmp
+__pycache__/
+.tempmediaStorage/
+scratch/
