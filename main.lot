@@ -20,3 +20,20 @@
 \contentsline {table}{\numberline {10.1}{\ignorespaces ผลการตรวจสอบมาตรฐานความปลอดภัยทางวิวิศวกรรมไฟฟ้าและการทำงานภาคสนาม ($n = 30$ ครั้งทดสอบ)}}{129}{table.caption.28}%
 \addvspace {10\p@ }
 \contentsline {table}{\numberline {11.1}{\ignorespaces แผนที่นำทางเทคโนโลยีพลาสมาการเกษตรและปัญญาประดิษฐ์ (พ.ศ. 2569--2578)}}{138}{table.caption.31}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {ก.1}{\ignorespaces ค่าคงที่มูลฐานทางฟิสิกส์สำหรับการคำนวณฟิสิกส์พลาสมา}}{142}{table.caption.32}%
+\contentsline {table}{\numberline {ก.2}{\ignorespaces สูตรสำเร็จเชิงปฏิบัติการสำหรับการคำนวณคุณลักษณะพลาสมา}}{143}{table.caption.33}%
+\contentsline {table}{\numberline {ก.3}{\ignorespaces คุณสมบัติทางกายภาพและศักย์การแตกตัวเป็นไอออนของก๊าซที่ใช้ในงานเกษตรและสิ่งแวดล้อม}}{144}{table.caption.34}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {ข.1}{\ignorespaces ปฏิกิริยาเคมีในสถานะก๊าซและอัตราการเกิดปฏิกิริยาที่อุณหภูมิห้อง ($T_g = 300\text { K}$)}}{148}{table.caption.36}%
+\contentsline {table}{\numberline {ข.2}{\ignorespaces ปฏิกิริยาเคมีสำคัญในสารละลายน้ำของ PAW ที่ $25^\circ \text {C}$}}{150}{table.caption.37}%
+\contentsline {table}{\numberline {ข.3}{\ignorespaces ศักย์รีดอกซ์มาตรฐานของสปีชีส์ RONS ที่สภาวะมาตรฐาน ($25^\circ \text {C}, 1\text { atm}, \text {pH } 0$)}}{152}{table.caption.38}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {ค.1}{\ignorespaces ผังรีจิสเตอร์ Modbus RTU Holding Registers (ฟังก์ชัน 0x03 / 0x06 / 0x10)}}{159}{table.caption.40}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {ง.1}{\ignorespaces เกณฑ์ขีดจำกัดการสัมผัสสารเคมีและรังสีในสถานที่ทำงาน (OSHA / ACGIH / NIOSH)}}{162}{table.caption.41}%
+\contentsline {table}{\numberline {ง.2}{\ignorespaces บัญชีรายการสิ่งแวดล้อมและผลกระทบต่อการปล่อยก๊าซเรือนกระจกต่อ 1 kg ของไนโตรเจนบริสุทธิ์ (N)}}{164}{table.caption.42}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {ฉ.1}{\ignorespaces รายการคำย่อสากลทางฟิสิกส์พลาสมาและปัญญาประดิษฐ์ (ตอนที่ 1: A--L)}}{172}{table.caption.43}%
+\contentsline {table}{\numberline {ฉ.2}{\ignorespaces รายการคำย่อสากลทางฟิสิกส์พลาสมาและปัญญาประดิษฐ์ (ตอนที่ 2: N--V)}}{173}{table.caption.44}%
