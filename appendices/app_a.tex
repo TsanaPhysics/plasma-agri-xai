@@ -1,0 +1,135 @@
+% =========================================================================
+% ภาคผนวก ก: ค่าคงที่ทางฟิสิกส์ สัญลักษณ์ และพารามิเตอร์การคายประจุพลาสมา
+% Appendix A: Physical Constants, Symbols and Plasma Discharge Parameters
+% =========================================================================
+
+\chapter{ค่าคงที่ทางฟิสิกส์ สัญลักษณ์ และพารามิเตอร์การคายประจุพลาสมา}
+\label{app:physical_constants}
+
+ภาคผนวกนี้รวบรวมค่าคงที่มูลฐานทางฟิสิกส์ หน่วยวัดสากล (SI Units) พารามิเตอร์จำเพาะของสถานะพลาสมาอุณหภูมิต่ำ และข้อมูลภาคตัดขวางการชน (Collision Cross-Sections) ของก๊าซองค์ประกอบหลักในบรรยากาศ เพื่อใช้เป็นข้อมูลอ้างอิงมาตรฐานสำหรับการคำนวณ การจำลองเชิงตัวเลข และการออกแบบเครื่องกำเนิดพลาสมา
+
+\section{ค่าคงที่มูลฐานสากลทางฟิสิกส์ (Fundamental Physical Constants)}
+\label{app:sec_constants}
+
+\index{ค่าคงที่ทางฟิสิกส์}\index{ประจุอิเล็กตรอน}\index{สภาพยอมของสุญญากาศ}\index{ค่าคงที่โบลต์ซมันน์}
+ค่าคงที่ทางฟิสิกส์ที่ใช้ในตำราเล่มนี้อ้างอิงตามค่ามาตรฐานสากล CODATA (Committee on Data for Science and Technology) ฉบับล่าสุด ดังแสดงในตารางที่ \ref{tab:app_constants}
+
+\begin{table}[H]
+\centering
+\caption{ค่าคงที่มูลฐานทางฟิสิกส์สำหรับการคำนวณฟิสิกส์พลาสมา}
+\label{tab:app_constants}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{ปริมาณทางฟิสิกส์} & \textbf{สัญลักษณ์} & \textbf{ค่าเชิงตัวเลข} & \textbf{หน่วยในระบบ SI} \\
+\midrule
+ความเร็วแสงในสุญญากาศ & $c$ & $2.99792458 \times 10^8$ & $\si{\meter\per\second}$ \\
+ประจุมูลฐานของอิเล็กตรอน & $e$ & $1.602176634 \times 10^{-19}$ & $\si{\coulomb}$ \\
+มวลนิ่งของอิเล็กตรอน & $m_e$ & $9.1093837015 \times 10^{-31}$ & $\si{\kilogram}$ \\
+มวลนิ่งของโปรตอน & $m_p$ & $1.67262192369 \times 10^{-27}$ & $\si{\kilogram}$ \\
+อัตราส่วนมวลโปรตอนต่ออิเล็กตรอน & $m_p/m_e$ & $1836.15267343$ & ไร้มิติ \\
+สภาพยอมของสุญญากาศ & $\varepsilon_0$ & $8.8541878128 \times 10^{-12}$ & $\si{\farad\per\meter}$ \\
+สภาพให้ซึมได้ของสุญญากาศ & $\mu_0$ & $1.25663706212 \times 10^{-6}$ & $\si{\henry\per\meter}$ \\
+ค่าคงที่ของพลังค์ & $h$ & $6.62607015 \times 10^{-34}$ & $\si{\joule\second}$ \\
+ค่าคงที่ของพลังค์ลดรูป & $\hbar = h/2\pi$ & $1.054571817 \times 10^{-34}$ & $\si{\joule\second}$ \\
+ค่าคงที่ของโบลต์ซมันน์ & $k_B$ & $1.380649 \times 10^{-23}$ & $\si{\joule\per\kelvin}$ \\
+ค่าคงที่ของอาโวกาโดร & $N_A$ & $6.02214076 \times 10^{23}$ & $\si{\per\mole}$ \\
+ค่าคงที่สากลของก๊าซ & $R = N_A k_B$ & $8.314462618$ & $\si{\joule\per\mole\per\kelvin}$ \\
+อุณหภูมิเทียบเท่า $1\text{ eV}$ & $T_{\text{eV}}$ & $11604.5$ & $\si{\kelvin}$ \\
+ความดันมาตรฐาน (1 atm) & $p_0$ & $101325$ & $\si{\pascal}$ ($760\text{ Torr}$) \\
+ความหนาแน่นก๊าซที่ STP (Loschmidt) & $n_0$ & $2.446 \times 10^{25}$ & $\si{\per\meter\cubed}$ ($298.15\text{ K}$) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{สูตรการแปลงพารามิเตอร์จำเพาะของพลาสมา (Plasma Parameters Scaling Laws)}
+\label{app:sec_plasma_formulas}
+
+\index{ความยาวเดอบาย}\index{ความถี่พลาสมา}\index{ความเร็วความร้อน}\index{อัตราส่วนสนามไฟฟ้าต่อความหนาแน่น}
+ตารางที่ \ref{tab:app_plasma_formulas} รวบรวมสูตรสำเร็จเชิงตัวเลขสำหรับการประเมินพารามิเตอร์สำคัญของพลาสมาความดันบรรยากาศอย่างรวดเร็ว โดยกำหนดให้อุณหภูมิอิเล็กตรอน $T_e$ มีหน่วยเป็นอิเล็กตรอนโวลต์ ($\si{eV}$) ความหนาแน่นอิเล็กตรอน $n_e$ มีหน่วยเป็นลูกบาศก์เซนติเมตร ($\si{\per\centi\meter\cubed}$) และสนามแม่เหล็ก $B$ มีหน่วยเป็นเทสลา ($\si{\tesla}$)
+
+\begin{table}[H]
+\centering
+\caption{สูตรสำเร็จเชิงปฏิบัติการสำหรับการคำนวณคุณลักษณะพลาสมา}
+\label{tab:app_plasma_formulas}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{พารามิเตอร์} & \textbf{สัญลักษณ์} & \textbf{สูตรนิยาม} & \textbf{สูตรประมาณค่าเชิงตัวเลข} \\
+\midrule
+ความยาวเดอบาย & $\lambda_D$ & $\sqrt{\dfrac{\varepsilon_0 k_B T_e}{n_e e^2}}$ & $\lambda_D \approx 743 \sqrt{\dfrac{T_e [\text{eV}]}{n_e [\text{cm}^{-3}]}}\quad [\si{\centi\meter}]$ \\[8pt]
+ความถี่พลาสมาของอิเล็กตรอน & $\omega_{pe}$ & $\sqrt{\dfrac{n_e e^2}{\varepsilon_0 m_e}}$ & $f_{pe} = \dfrac{\omega_{pe}}{2\pi} \approx 8980 \sqrt{n_e [\text{cm}^{-3}]}\quad [\si{\hertz}]$ \\[8pt]
+ความถี่ไซโคลตรอน & $\omega_{ce}$ & $\dfrac{e B}{m_e}$ & $f_{ce} = \dfrac{\omega_{ce}}{2\pi} \approx 2.80 \times 10^{10} B [\text{T}]\quad [\si{\hertz}]$ \\[8pt]
+ความเร็วความร้อนอิเล็กตรอน & $v_{th,e}$ & $\sqrt{\dfrac{8 k_B T_e}{\pi m_e}}$ & $v_{th,e} \approx 6.69 \times 10^7 \sqrt{T_e [\text{eV}]}\quad [\si{\centi\meter\per\second}]$ \\[8pt]
+ความหนาแน่นอนุภาคในทรงกลมเดอบาย & $N_D$ & $\dfrac{4\pi}{3} n_e \lambda_D^3$ & $N_D \approx 1.72 \times 10^9 \dfrac{(T_e [\text{eV}])^{3/2}}{(n_e [\text{cm}^{-3}])^{1/2}}$ \\[8pt]
+สนามไฟฟ้าลดรูป & $E/N$ & $\dfrac{E}{n_0}$ & $1\text{ Td} = 10^{-17}\text{ V}\cdot\text{cm}^2 = 10^{-21}\text{ V}\cdot\text{m}^2$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{ภาคตัดขวางการชนและศักย์แตกตัวเป็นไอออนของก๊าซบรรยากาศ}
+\label{app:sec_cross_sections}
+
+\index{ภาคตัดขวางการชน}\index{ศักย์การแตกตัวเป็นไอออน}\index{กฎของพาสเชน}
+กระบวนการถ่ายโอนพลังงานในพลาสมาเย็นขึ้นอยู่กับศักย์การกระตุ้นและการแตกตัวเป็นไอออน (Ionization Potential) ของโมเลกุลก๊าซตั้งต้น ตารางที่ \ref{tab:app_gas_properties} สรุปคุณสมบัติทางอะตอมและโมเลกุลที่สำคัญของก๊าซในระบบพลาสมาเกษตร
+
+\begin{table}[H]
+\centering
+\caption{คุณสมบัติทางกายภาพและศักย์การแตกตัวเป็นไอออนของก๊าซที่ใช้ในงานเกษตรและสิ่งแวดล้อม}
+\label{tab:app_gas_properties}
+\begin{tabularx}{\textwidth}{l c c c c X}
+\toprule
+\textbf{ก๊าซ} & \textbf{มวลโมเลกุล} & \textbf{ศักย์ไอออไนเซชัน} & \textbf{พลังงานพันธะ} & \textbf{สภาพนำความร้อน} & \textbf{พาสเชนมินิมัม} \\
+& ($\si{\gram\per\mole}$) & $E_i$ ($\si{eV}$) & $E_{\text{diss}}$ ($\si{eV}$) & ($\si{\milli\watt\per\meter\per\kelvin}$) & $V_{\min} [\si{\volt}] \ (pd_{\min} [\si{\pascal\meter}])$ \\
+\midrule
+ไนโตรเจน ($\ce{N2}$) & $28.013$ & $15.58$ & $9.79$ ($\ce{N#N}$) & $26.0$ & $275\ (0.93)$ \\
+ออกซิเจน ($\ce{O2}$) & $31.999$ & $12.07$ & $5.12$ ($\ce{O=O}$) & $26.3$ & $450\ (0.93)$ \\
+ไอน้ำ ($\ce{H2O}$) & $18.015$ & $12.62$ & $5.16$ ($\ce{H-OH}$) & $18.1$ & $418\ (1.33)$ \\
+คาร์บอนไดออกไซด์ ($\ce{CO2}$) & $44.010$ & $13.78$ & $5.52$ ($\ce{O=CO}$) & $16.8$ & $420\ (0.67)$ \\
+อาร์กอน ($\ce{Ar}$) & $39.948$ & $15.76$ & -- & $17.9$ & $137\ (1.20)$ \\
+ฮีเลียม ($\ce{He}$) & $4.003$ & $24.59$ & -- & $156.7$ & $150\ (5.33)$ \\
+อากาศแห้ง (Air) & $28.966$ & $\sim 14.8$ & -- & $26.2$ & $327\ (0.76)$ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.95]
+    % Axes
+    \draw[->, thick, line width=1.1pt] (0,0) -- (9.5,0) node[below=4pt] {\textbf{ผลคูณความดันกับระยะห่างขั้ว} $pd\ (\si{\pascal\meter})$};
+    \draw[->, thick, line width=1.1pt] (0,0) -- (0,5.5) node[above=4pt] {\textbf{แรงดันเบรกดาวน์} $V_B\ (\si{\volt})$};
+    
+    % Grid
+    \draw[step=1cm, gray!25, dashed, line width=0.5pt] (0,0) grid (9.2,5.2);
+    
+    % Curves (Paschen Law)
+    % N2 curve
+    \draw[domain=0.5:9.0, samples=80, line width=1.6pt, color=deepIndigo] 
+        plot (\x, {0.9 + 1.2/(\x + 0.1) + 0.45*\x}) node[right] {\small $\ce{N2}$};
+    
+    % Air curve
+    \draw[domain=0.6:9.0, samples=80, line width=1.6pt, color=agriGreen!90!black, dashed] 
+        plot (\x, {1.2 + 1.4/(\x + 0.1) + 0.48*\x}) node[right] {\small อากาศแห้ง (Air)};
+        
+    % Argon curve
+    \draw[domain=0.4:9.0, samples=80, line width=1.6pt, color=cyan!80!blue] 
+        plot (\x, {0.4 + 0.8/(\x + 0.2) + 0.35*\x}) node[right] {\small $\ce{Ar}$};
+        
+    % Helium curve
+    \draw[domain=1.5:9.0, samples=80, line width=1.6pt, color=purple!85!black, dotted] 
+        plot (\x, {0.6 + 2.5/(\x + 0.2) + 0.22*\x}) node[right] {\small $\ce{He}$};
+
+    % Mark Minimum
+    \fill[color=deepIndigo] (1.63, 2.37) circle (3pt);
+    \node[above=3pt, font=\footnotesize, fill=white, inner sep=1pt] at (1.63, 2.45) {จุดต่ำสุด $V_{\min} \approx 275\text{ V}$};
+    
+    % Labels
+    \node[anchor=south west, fill=white, draw=gray!40, rounded corners=2mm, inner sep=4pt] at (0.4, 3.6) {
+        \fontsize{8}{10}\selectfont
+        $\displaystyle V_B = \frac{B \cdot (pd)}{\ln[A \cdot (pd)] - \ln[\ln(1 + 1/\gamma_{\text{se}})]}$
+    };
+\end{tikzpicture}
+\caption{เส้นโค้งพาสเชน (Paschen Minimum Curves) แสดงความสัมพันธ์ระหว่างแรงดันเบรกดาวน์กับผลคูณความดันและระยะห่างขั้ว ($pd$)}
+\label{fig:app_paschen_curves}
+\end{figure}
+
+\clearpage

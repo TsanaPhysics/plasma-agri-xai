@@ -1,0 +1,188 @@
+% =========================================================================
+% ภาคผนวก ค: สถาปัตยกรรมโมเดลปัญญาประดิษฐ์และซอร์สโค้ดระบบ Edge AI / PINN
+% Appendix C: AI Architectures, PINN Formulations and Edge Firmware Code
+% =========================================================================
+
+\chapter{สถาปัตยกรรมโมเดลปัญญาประดิษฐ์และซอร์สโค้ดระบบ Edge AI / PINN}
+\label{app:ai_pinn_architecture}
+
+ภาคผนวกนี้แสดงรายละเอียดทางคณิตศาสตร์ของโมเดลโครงข่ายประสาทเทียมผสานฟิสิกส์ (Physics-Informed Neural Networks, PINN) การนิยามฟังก์ชันการสูญเสียจากสมการอนุพันธ์ย่อย (PDE Residual Loss) ซอร์สโค้ดตัวอย่างในภาษา Python และ PyTorch สำหรับการวิเคราะห์สเปกตรัม OES และการคัดเกรดฟีโนไทป์เมล็ดพันธุ์ ตลอดจนโครงสร้างคำสั่งเฟิร์มแวร์ Edge AI และตารางรีจิสเตอร์ Modbus RTU สำหรับการควบคุมเครื่องกำเนิดพลาสมาภาคสนาม
+
+\section{สูตรทางคณิตศาสตร์ของโมเดล PINN สำหรับการแพร่ของสปีชีส์ RONS}
+\label{app:sec_pinn_math}
+
+\index{แบบจำลองฟิสิกส์ร่วมโครงข่ายประสาท}\index{สมการอนุพันธ์ย่อย}\index{การแพร่และการพา}
+พิจารณาสมการการพา-การแพร่และการเกิดปฏิกิริยา (Advection-Diffusion-Reaction Equation) สำหรับความเข้มข้นของสปีชีส์ RONS $C_i(t, \mathbf{x})$:
+
+\begin{equation}
+\label{eq:app_pinn_adr}
+\mathcal{N}[C_i] \equiv \frac{\partial C_i}{\partial t} + \mathbf{u} \cdot \nabla C_i - D_i \nabla^2 C_i - R_i(C_1, \dots, C_M) = 0
+\end{equation}
+
+กำหนดให้ $\hat{C}_i(t, \mathbf{x}; \boldsymbol{\theta})$ เป็นผลการทำนายจากโครงข่ายประสาทเทียมที่มีพารามิเตอร์น้ำหนัก $\boldsymbol{\theta}$ ฟังก์ชันการสูญเสียรวม (Composite Loss Function) ประกอบด้วย 3 องค์ประกอบหลัก:
+
+\begin{equation}
+\label{eq:app_pinn_loss_total}
+\mathcal{L}_{\text{total}}(\boldsymbol{\theta}) = w_{\text{data}} \mathcal{L}_{\text{data}}(\boldsymbol{\theta}) + w_{\text{PDE}} \mathcal{L}_{\text{PDE}}(\boldsymbol{\theta}) + w_{\text{BC}} \mathcal{L}_{\text{BC}}(\boldsymbol{\theta})
+\end{equation}
+
+\begin{align}
+\mathcal{L}_{\text{data}}(\boldsymbol{\theta}) &= \frac{1}{N_{\text{data}}} \sum_{j=1}^{N_{\text{data}}} \left| \hat{C}_i(t_j, \mathbf{x}_j; \boldsymbol{\theta}) - C_j^{\text{meas}} \right|^2 \label{eq:app_loss_data} \\[6pt]
+\mathcal{L}_{\text{PDE}}(\boldsymbol{\theta}) &= \frac{1}{N_{\text{colloc}}} \sum_{k=1}^{N_{\text{colloc}}} \left| \frac{\partial \hat{C}_i}{\partial t} + \mathbf{u}_k \cdot \nabla \hat{C}_i - D_i \nabla^2 \hat{C}_i - R_i(\hat{C}_1, \dots, \hat{C}_M) \right|^2_{\substack{t=t_k \\ \mathbf{x}=\mathbf{x}_k}} \label{eq:app_loss_pde} \\[6pt]
+\mathcal{L}_{\text{BC}}(\boldsymbol{\theta}) &= \frac{1}{N_{\text{BC}}} \sum_{l=1}^{N_{\text{BC}}} \left| \mathcal{B}[\hat{C}_i](t_l, \mathbf{x}_l; \boldsymbol{\theta}) - g(t_l, \mathbf{x}_l) \right|^2 \label{eq:app_loss_bc}
+\end{align}
+
+อนุพันธ์ย่อยในสมการ (\ref{eq:app_loss_pde}) คำนวณผ่านการหาอนุพันธ์อัตโนมัติ (Automatic Differentiation, Autograd) ทำให้โมเดลสามารถเรียนรู้กฎฟิสิกส์ได้อย่างแม่นยำแม้ในบริเวณที่ไม่มีจุดข้อมูลเซนเซอร์ตรวจวัดจริง
+
+\section{ซอร์สโค้ด PyTorch สำหรับการสร้างและฝึกสอนโมเดล PINN}
+\label{app:sec_pinn_code}
+
+\index{ไพทอน}\index{พายทอร์ช}\index{การหาอนุพันธ์อัตโนมัติ}
+ตัวอย่างการเขียนโค้ดภาษา Python ด้วย PyTorch สำหรับการคำนวณ PDE Residual ของสปีชีส์ $\ce{NO3^-}$ และ $\ce{H2O2}$ ในถังปฏิกรณ์น้ำ PAW:
+
+\begin{verbatim}
+import torch
+import torch.nn as nn
+
+class PlasmaReactorPINN(nn.Module):
+    def __init__(self, hidden_dim=64, num_layers=4):
+        super().__init__()
+        layers = [nn.Linear(3, hidden_dim), nn.Tanh()] # Inputs: x, y, t
+        for _ in range(num_layers - 1):
+            layers.extend([nn.Linear(hidden_dim, hidden_dim), nn.Tanh()])
+        layers.append(nn.Linear(hidden_dim, 2)) # Outputs: C_NO3, C_H2O2
+        self.network = nn.Sequential(*layers)
+
+    def forward(self, x, y, t):
+        inputs = torch.cat([x, y, t], dim=1)
+        return self.network(inputs)
+
+def compute_pde_residual(model, x, y, t, D_no3=1.9e-9, D_h2o2=1.4e-9):
+    """คำนวณ Residual ของสมการอนุพันธ์ย่อยด้วย Autograd"""
+    x.requires_grad_(True)
+    y.requires_grad_(True)
+    t.requires_grad_(True)
+
+    C = model(x, y, t)
+    C_no3  = C[:, 0:1]
+    C_h2o2 = C[:, 1:2]
+
+    # อนุพันธ์ย่อยเทียบกับเวลา
+    dC_no3_dt  = torch.autograd.grad(C_no3,  t, torch.ones_like(t),  create_graph=True)[0]
+    dC_h2o2_dt = torch.autograd.grad(C_h2o2, t, torch.ones_like(t), create_graph=True)[0]
+
+    # ลาปลาเซียน (Laplacian: Diffusion term)
+    d2C_no3_dx2 = torch.autograd.grad(
+        torch.autograd.grad(C_no3, x, torch.ones_like(x), create_graph=True)[0],
+        x, torch.ones_like(x), create_graph=True)[0]
+    d2C_no3_dy2 = torch.autograd.grad(
+        torch.autograd.grad(C_no3, y, torch.ones_like(y), create_graph=True)[0],
+        y, torch.ones_like(y), create_graph=True)[0]
+
+    # Residual สำหรับปฏิกิริยาการสลายตัวอันดับหนึ่ง
+    res_no3 = dC_no3_dt - D_no3 * (d2C_no3_dx2 + d2C_no3_dy2)
+    return torch.mean(res_no3**2)
+\end{verbatim}
+
+\section{แผนผังวงจรพัลส์มาร์กโซลิดสเตต (Solid-State Marx Generator Driver)}
+\label{app:sec_marx_schematic}
+
+\index{วงจรพัลส์มาร์กโซลิดสเตต}\index{ทรานซิสเตอร์กำลัง SiC}\index{การตรวจจับการเกิดอาร์ก}
+สถาปัตยกรรมวงจรขับพัลส์ไฟฟ้าแรงสูง 5 ขั้นตอน (5-Stage Modular SiC Marx Generator) สำหรับจ่ายแรงดันพัลส์ $0$--$10\text{ kV}$, ความถี่ $1$--$50\text{ kHz}$ แสดงในรูปที่ \ref{fig:app_marx_circuit}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.88, every node/.style={transform shape}]
+    % DC Bus Input & Ground Line
+    \draw[thick, line width=1.4pt, color=deepIndigo] (0, 4) -- (1.5, 4) node[above=2pt] {$+V_{\text{DC}}\ (1\text{ kV})$};
+    \draw[thick, line width=1.4pt, color=black!70] (0, 0) -- (11.5, 0) node[right=4pt] {\textbf{Ground}};
+    
+    % Charging Resistor
+    \draw[thick] (1.5, 4) -- (2.0, 4);
+    \draw[thick, fill=white] (2.0, 3.8) rectangle (2.8, 4.2);
+    \node at (2.4, 4.4) {\small $R_{\text{chg}}$};
+    \draw[thick] (2.8, 4) -- (3.3, 4);
+    
+    % Stage 1: Capacitor C1
+    \draw[thick] (3.3, 4) -- (3.3, 2.3);
+    \draw[thick, line width=1.6pt] (2.9, 2.3) -- (3.7, 2.3);
+    \draw[thick, line width=1.6pt] (2.9, 2.0) -- (3.7, 2.0);
+    \node[right=2pt] at (3.7, 2.15) {\small $C_1\ (100\text{ nF})$};
+    \draw[thick] (3.3, 2.0) -- (3.3, 1.0);
+    
+    % Diode D1
+    \draw[thick, fill=gray!30] (3.1, 1.0) -- (3.5, 1.0) -- (3.3, 0.5) -- cycle;
+    \draw[thick] (3.1, 0.5) -- (3.5, 0.5);
+    \node[right=2pt] at (3.5, 0.75) {\small $D_1$};
+    \draw[thick] (3.3, 0.5) -- (3.3, 0);
+    
+    % SiC Switch S1
+    \draw[thick] (3.3, 4) -- (4.2, 4);
+    \draw[thick, fill=cyan!15, draw=cyan!80!black, rounded corners=1mm] (4.2, 3.5) rectangle (5.4, 4.5);
+    \node at (4.8, 4) {\textbf{\small SiC S1}};
+    \draw[thick] (5.4, 4) -- (6.3, 4);
+    
+    % Stage 2: Capacitor C2
+    \draw[thick] (6.3, 4) -- (6.3, 2.3);
+    \draw[thick, line width=1.6pt] (5.9, 2.3) -- (6.7, 2.3);
+    \draw[thick, line width=1.6pt] (5.9, 2.0) -- (6.7, 2.0);
+    \node[right=2pt] at (6.7, 2.15) {\small $C_2$};
+    \draw[thick] (6.3, 2.0) -- (6.3, 1.0);
+    
+    % Diode D2
+    \draw[thick, fill=gray!30] (6.1, 1.0) -- (6.5, 1.0) -- (6.3, 0.5) -- cycle;
+    \draw[thick] (6.1, 0.5) -- (6.5, 0.5);
+    \node[right=2pt] at (6.5, 0.75) {\small $D_2$};
+    \draw[thick] (6.3, 0.5) -- (6.3, 0);
+    
+    % SiC Switch S2
+    \draw[thick] (6.3, 4) -- (7.2, 4);
+    \draw[thick, fill=cyan!15, draw=cyan!80!black, rounded corners=1mm] (7.2, 3.5) rectangle (8.4, 4.5);
+    \node at (7.8, 4) {\textbf{\small SiC S2}};
+    \draw[thick] (8.4, 4) -- (9.2, 4);
+    
+    % Output Stage to Plasma Reactor
+    \draw[dashed, line width=1.2pt, color=purple] (9.2, 4) -- (10.2, 4);
+    \draw[thick, fill=purple!15, draw=purple!80!black, rounded corners=2mm] (10.2, 3.1) rectangle (12.2, 4.9);
+    \node[align=center] at (11.2, 4) {\textbf{\small หัวปล่อยพลาสมา}\\\footnotesize $V_{\text{out}} = N \cdot V_{\text{DC}}$};
+    \draw[thick] (11.2, 3.1) -- (11.2, 0);
+    
+    % Gate Driver & Microcontroller Bus
+    \draw[fill=techAmber!15, draw=techAmber!80!black, rounded corners=2mm] (3.8, -1.8) rectangle (8.8, -0.8);
+    \node at (6.3, -1.3) {\textbf{\small Isolated Gate Driver Board (Fiber-Optic Sync / Si827x)}};
+    \draw[->, thick, line width=1.1pt, color=techAmber!90!black] (4.8, -0.8) -- (4.8, 3.5);
+    \draw[->, thick, line width=1.1pt, color=techAmber!90!black] (7.8, -0.8) -- (7.8, 3.5);
+\end{tikzpicture}
+\caption{แผนผังวงจรขับพัลส์ไฟฟ้าแรงสูงแบบมาร์กโซลิดสเตต (Solid-State Marx Generator) ร่วมกับสวิตช์ SiC MOSFET}
+\label{fig:app_marx_circuit}
+\end{figure}
+
+\section{ตารางรีจิสเตอร์โปรโตคอล Modbus RTU สำหรับการควบคุมพลาสมาภาคสนาม}
+\label{app:sec_modbus_registers}
+
+\index{มอดบัส}\index{การควบคุมทางไกล}\index{เซนเซอร์ภาคสนาม}
+การเชื่อมต่อระหว่างบอร์ด Edge AI Controller (LEQs-xAI) กับระบบ SCADA ในแปลงเกษตรใช้โปรโตคอล Modbus RTU ผ่านพอร์ต RS485 ดังตารางที่ \ref{tab:app_modbus_map}
+
+\begin{table}[H]
+\centering
+\caption{ผังรีจิสเตอร์ Modbus RTU Holding Registers (ฟังก์ชัน 0x03 / 0x06 / 0x10)}
+\label{tab:app_modbus_map}
+\begin{tabularx}{\textwidth}{l l l l X}
+\toprule
+\textbf{Address} & \textbf{ชื่อพารามิเตอร์} & \textbf{ชนิดข้อมูล} & \textbf{หน่วย / สเกล} & \textbf{คำอธิบายการทำงาน} \\
+\midrule
+40001 & \texttt{SYS\_CONTROL} & UINT16 & รหัสสถานะ & 0: สแตนด์บาย, 1: เริ่มยิงพลาสมา, 9: ดับฉุกเฉิน \\
+40002 & \texttt{PULSE\_VOLTAGE\_SET} & UINT16 & $\si{\volt}$ ($1\times$) & ตั้งค่าแรงดันพัลส์เป้าหมาย ($0$--$12000\text{ V}$) \\
+40003 & \texttt{PULSE\_FREQ\_SET} & UINT16 & $\si{\hertz}$ ($1\times$) & ตั้งค่าความถี่การคายประจุ ($100$--$50000\text{ Hz}$) \\
+40004 & \texttt{DUTY\_CYCLE\_SET} & UINT16 & \% ($0.1\times$) & สัดส่วนรอบการทำงาน Duty Cycle ($1.0$--$20.0\%$) \\
+40005 & \texttt{PAW\_PH\_ACTUAL} & INT16 & pH ($0.01\times$) & ค่า pH ของน้ำ PAW ในถังผสม ($0.00$--$14.00$) \\
+40006 & \texttt{PAW\_ORP\_ACTUAL} & INT16 & $\si{\milli\volt}$ ($1\times$) & ค่าศักย์ออกซิเดชันรีดักชัน ORP ($-1000$ ถึง $+1000$) \\
+40007 & \texttt{NO3\_CONC\_ACTUAL} & UINT16 & $\si{\milli\gram\per\liter}$ ($0.1\times$) & ความเข้มข้นไนเตรตตรวจวัดด้วยเซนเซอร์ ISE \\
+40008 & \texttt{OES\_N2\_PEAK\_INT} & UINT16 & a.u. ($1\times$) & ความเข้มเส้นสเปกตรัม $\ce{N2}(C-B)\ 337.1\text{ nm}$ \\
+40009 & \texttt{ARC\_FAULT\_ALARM} & UINT16 & บิตแฟล็ก & บิต 0: กระแสเกิน, บิต 1: สตรีมเมอร์ข้ามขั้ว \\
+40010 & \texttt{SAFETY\_INTERLOCK} & UINT16 & บิตแฟล็ก & ตรวจสอบฝาครอบตู้ปฏิกรณ์และเซนเซอร์โอโซน \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\clearpage

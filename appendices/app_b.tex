@@ -1,0 +1,123 @@
+% =========================================================================
+% ภาคผนวก ข: จลนพลศาสตร์ปฏิกิริยาเคมีพลาสมาและสปีชีส์ RONS ในสารละลายน้ำ
+% Appendix B: Plasma Chemical Kinetics and Aqueous RONS Reaction Networks
+% =========================================================================
+
+\chapter{จลนพลศาสตร์ปฏิกิริยาเคมีพลาสมาและสปีชีส์ RONS ในสารละลายน้ำ}
+\label{app:chemical_kinetics}
+
+ภาคผนวกนี้แสดงชุดปฏิกิริยาเคมีปฐมภูมิและทุติยภูมิ (Chemical Reaction Mechanisms) ทั้งในสถานะก๊าซ (Gas phase) และสถานะของเหลว (Liquid phase) ระหว่างการคายประจุพลาสมาความดันบรรยากาศในอากาศชื้น พร้อมค่าคงที่อัตราการเกิดปฏิกิริยา ($k$) และศักย์รีดอกซ์มาตรฐานของสปีชีส์ไวต่อปฏิกิริยาของออกซิเจนและไนโตรเจน (RONS) เพื่อใช้ในการสร้างแบบจำลองจลนพลศาสตร์เชิงตัวเลข (0D/1D Chemical Kinetics Modeling)
+
+\section{เครือข่ายปฏิกิริยาเคมีในสถานะก๊าซของระบบ $\ce{N2}-\ce{O2}-\ce{H2O}$}
+\label{app:sec_gas_kinetics}
+
+\index{ปฏิกิริยาเคมีพลาสมา}\index{อัตราการเกิดปฏิกิริยา}\index{การชนแบบยืดหยุ่น}\index{การแตกตัวด้วยอิเล็กตรอน}
+ในพลาสมาเย็น การกระตุ้นโมเลกุลตั้งต้นเกิดจากการชนของอิเล็กตรอนพลังงานสูง ($e + \ce{M} \to e + \ce{M}^*$ หรือ $\ce{A} + \ce{B}$) ซึ่งนำไปสู่การก่อกำเนิดอนุมูลอิสระ ปฏิกิริยาหลัก 30 ปฏิกิริยาที่ขับเคลื่อนเคมีพลาสมาบรรยากาศสรุปไว้ในตารางที่ \ref{tab:app_gas_reactions}
+
+\begin{table}[H]
+\centering
+\caption{ปฏิกิริยาเคมีในสถานะก๊าซและอัตราการเกิดปฏิกิริยาที่อุณหภูมิห้อง ($T_g = 300\text{ K}$)}
+\label{tab:app_gas_reactions}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{ลำดับ} & \textbf{สมการปฏิกิริยา} & \textbf{ค่าคงที่อัตราเร็ว $k$ (หน่วย SI/CGS)} & \textbf{กลไกทางเคมี} \\
+\midrule
+R1 & $e + \ce{O2} \to e + \ce{O(^3P)} + \ce{O(^1D)}$ & $f(E/N)$ ($10^{-9}$--$10^{-8}\ \si{\centi\meter\cubed\per\second}$) & Electron impact dissociation \\
+R2 & $e + \ce{N2} \to e + \ce{N(^4S)} + \ce{N(^2D)}$ & $f(E/N)$ ($10^{-11}$--$10^{-9}\ \si{\centi\meter\cubed\per\second}$) & High-energy $\ce{N2}$ cleavage \\
+R3 & $e + \ce{H2O} \to e + \ce{H} + \ce{\cdot OH}$ & $f(E/N)$ ($10^{-10}$--$10^{-9}\ \si{\centi\meter\cubed\per\second}$) & Hydroxyl radical formation \\
+R4 & $\ce{O(^3P)} + \ce{O2} + \ce{M} \to \ce{O3} + \ce{M}$ & $6.0 \times 10^{-34}\ \si{\centi\meter\tothe{6}\per\second}$ & Ozone 3-body synthesis \\
+R5 & $\ce{O(^1D)} + \ce{H2O} \to 2\ce{\cdot OH}$ & $2.2 \times 10^{-10}\ \si{\centi\meter\cubed\per\second}$ & Fast $\ce{\cdot OH}$ production \\
+R6 & $\ce{N(^2D)} + \ce{O2} \to \ce{NO} + \ce{O}$ & $5.2 \times 10^{-12}\ \si{\centi\meter\cubed\per\second}$ & Zeldovich thermal $\ce{NO}$ \\
+R7 & $\ce{N(^4S)} + \ce{NO} \to \ce{N2} + \ce{O}$ & $2.2 \times 10^{-11}\ \si{\centi\meter\cubed\per\second}$ & $\ce{NO}$ quenching / termination \\
+R8 & $\ce{NO} + \ce{O3} \to \ce{NO2} + \ce{O2}$ & $1.8 \times 10^{-14}\ \si{\centi\meter\cubed\per\second}$ & $\ce{NO2}$ oxidation \\
+R9 & $\ce{NO2} + \ce{O(^3P)} \to \ce{NO} + \ce{O2}$ & $1.0 \times 10^{-11}\ \si{\centi\meter\cubed\per\second}$ & Nitrogen dioxide cycle \\
+R10 & $\ce{NO2} + \ce{O3} \to \ce{NO3} + \ce{O2}$ & $3.5 \times 10^{-17}\ \si{\centi\meter\cubed\per\second}$ & Nitrate radical formation \\
+R11 & $\ce{NO2} + \ce{NO3} + \ce{M} \rightleftharpoons \ce{N2O5} + \ce{M}$ & $k_f = 1.4 \times 10^{-12}\ \si{\centi\meter\cubed\per\second}$ & Dinitrogen pentoxide eq. \\
+R12 & $\ce{\cdot OH} + \ce{\cdot OH} + \ce{M} \to \ce{H2O2} + \ce{M}$ & $6.9 \times 10^{-31}\ \si{\centi\meter\tothe{6}\per\second}$ & Hydrogen peroxide dimer \\
+R13 & $\ce{\cdot OH} + \ce{O3} \to \ce{HO2^{\cdot}} + \ce{O2}$ & $7.3 \times 10^{-14}\ \si{\centi\meter\cubed\per\second}$ & Hydroperoxyl formation \\
+R14 & $\ce{HO2^{\cdot}} + \ce{NO} \to \ce{\cdot OH} + \ce{NO2}$ & $8.5 \times 10^{-12}\ \si{\centi\meter\cubed\per\second}$ & Hydroxyl recycling \\
+R15 & $\ce{\cdot OH} + \ce{NO2} + \ce{M} \to \ce{HNO3} + \ce{M}$ & $3.2 \times 10^{-30}\ \si{\centi\meter\tothe{6}\per\second}$ & Nitric acid vapor generation \\
+R16 & $\ce{\cdot OH} + \ce{NO} + \ce{M} \to \ce{HNO2} + \ce{M}$ & $7.4 \times 10^{-31}\ \si{\centi\meter\tothe{6}\per\second}$ & Nitrous acid vapor generation \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{จลนพลศาสตร์ในวัฏภาคของเหลวและการกำเนิดกรดเปอร์ออกซีไนตรัส (PAW Aqueous Chemistry)}
+\label{app:sec_aqueous_kinetics}
+
+\index{น้ำกระตุ้นด้วยพลาสมา}\index{กรดเปอร์ออกซีไนตรัส}\index{ศักย์รีดอกซ์มาตรฐาน}
+เมื่อก๊าซที่ถูกกระตุ้นสัมผัสกับพื้นผิวสัมผัสน้ำ สปีชีส์ก๊าซจะละลายตามกฎของเฮนรี (Henry's law) และทำปฏิกิริยาต่อยอดกลายเป็นสารละลายน้ำกระตุ้นด้วยพลาสมา (Plasma-Activated Water, PAW) ดังสมการเคมีในตารางที่ \ref{tab:app_aqueous_reactions}
+
+\begin{table}[H]
+\centering
+\caption{ปฏิกิริยาเคมีสำคัญในสารละลายน้ำของ PAW ที่ $25^\circ\text{C}$}
+\label{tab:app_aqueous_reactions}
+\begin{tabularx}{\textwidth}{l l l X}
+\toprule
+\textbf{ปฏิกิริยา} & \textbf{สมการเคมี} & \textbf{ค่าคงที่สมดุล / อัตราเร็ว} & \textbf{ความสำคัญทางชีวภาพ} \\
+\midrule
+L1 & $\ce{NO_{(aq)} + NO2_{(aq)} + H2O \rightleftharpoons 2H+ + 2NO2^-}$ & $K = 4.2 \times 10^{-8}$ & แหล่งกำเนิดไอออนไนไตรต์ \\
+L2 & $\ce{2NO2_{(aq)} + H2O \rightleftharpoons 2H+ + NO2^- + NO3^-}$ & $K = 4.0 \times 10^{-5}$ & การไฮโดรไลซิสเป็นไนเตรต \\
+L3 & $\ce{N2O5_{(aq)} + H2O \to 2H+ + 2NO3^-}$ & $k = 1.0 \times 10^3\ \si{\per\second}$ & การสร้างปุ๋ยไนโตรเจนบริสุทธิ์ \\
+L4 & $\ce{NO2^- + H+ \rightleftharpoons HNO2}$ & $pK_a = 3.30$ & สมดุลกรดไนตรัส \\
+L5 & $\ce{HNO2 + H2O2 \to ONOOH + H2O}$ & $k = 1.1 \times 10^3\ \si{\per\mole\per\second}$ & \textbf{การสร้างสารฆ่าเชื้อหลัก} \\
+L6 & $\ce{ONOOH \rightleftharpoons H+ + ONOO^-}$ & $pK_a = 6.80$ & สปีชีส์เพอร์ออกซีไนไตรต์ \\
+L7 & $\ce{ONOOH \to \cdot OH + \cdot NO2}$ & $k = 0.90\ \si{\per\second}$ (30\% yield) & การแตกตัวเป็นอนุมูลอิสระ \\
+L8 & $\ce{ONOOH \to H+ + NO3^-}$ & $k = 2.10\ \si{\per\second}$ (70\% yield) & การสลายตัวสู่ปุ๋ยไนเตรต \\
+L9 & $\ce{3HNO2 \to H+ + NO3^- + 2NO + H2O}$ & Disproportionation & การสลายตัวในสภาวะกรดจัด \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{ศักย์รีดอกซ์มาตรฐานของสปีชีส์ RONS (Standard Reduction Potentials)}
+\label{app:sec_redox_potentials}
+
+\index{ศักย์รีดอกซ์}\index{ความสามารถในการออกซิไดซ์}
+ความสามารถในการทำลายเยื่อหุ้มเซลล์ของเชื้อราก่อโรคพืช (*Phytophthora*) และการย่อยสลายสารมลพิษตกค้าง PFAS/VOCs พิจารณาได้จากศักย์รีดอกซ์มาตรฐาน ($E^\circ$ เทียบกับขั้วไฮโดรเจนมาตรฐาน SHE) ในตารางที่ \ref{tab:app_redox_table}
+
+\begin{table}[H]
+\centering
+\caption{ศักย์รีดอกซ์มาตรฐานของสปีชีส์ RONS ที่สภาวะมาตรฐาน ($25^\circ\text{C}, 1\text{ atm}, \text{pH } 0$)}
+\label{tab:app_redox_table}
+\begin{tabularx}{\textwidth}{l l c X}
+\toprule
+\textbf{สปีชีส์ RONS} & \textbf{ปฏิกิริยาครึ่งเซลล์รีดักชัน} & \textbf{$E^\circ$ ($\si{\volt}$ vs SHE)} & \textbf{ลำดับพลังออกซิเดชัน} \\
+\midrule
+อนุมูลไฮดรอกซิล ($\ce{\cdot OH}$) & $\ce{\cdot OH + H+ + e- \to H2O}$ & $+2.80$ & สูงสุด (ทำลายพันธะ C--F ใน PFAS) \\
+ออกซิเจนเดี่ยว ($\ce{^1O2}$) & $\ce{^1O2 + 2H+ + 2e- \to H2O2}$ & $+2.42$ & เจาะจงทำลายไขมันไม่อิ่มตัว \\
+โอโซน ($\ce{O3}$) & $\ce{O3 + 2H+ + 2e- \to O2 + H2O}$ & $+2.07$ & ออกซิไดซ์ผนังเซลล์และสปอร์ \\
+กรดเปอร์ออกซีไนตรัส ($\ce{ONOOH}$) & $\ce{ONOOH + 2H+ + 2e- \to HNO2 + H2O}$ & $+2.05$ & แทรกซึมทะลุเยื่อหุ้มเซลล์แบคทีเรีย \\
+อนุมูลไฮโดรเปอร์ออกซิล ($\ce{HO2^{\cdot}}$) & $\ce{HO2^{\cdot} + H+ + e- \to H2O2}$ & $+1.70$ & มีอายุยาวกว่าไฮดรอกซิล \\
+ไฮโดรเจนเปอร์ออกไซด์ ($\ce{H2O2}$) & $\ce{H2O2 + 2H+ + 2e- \to 2H2O}$ & $+1.77$ & สารออกซิไดซ์เสถียรในน้ำ \\
+ไอออนเปอร์ออกซีไนไตรต์ ($\ce{ONOO^-}$) & $\ce{ONOO^- + 2H+ + e- \to \cdot NO2 + H2O}$ & $+1.40$ & ฟอร์มที่ pH สูง \\
+กรดไฮโปคลอรัส ($\ce{HOCl}$) & $\ce{HOCl + H+ + 2e- \to Cl- + H2O}$ & $+1.48$ & สารฆ่าเชื้อคลอรีนแบบเดิม \\
+ก๊าซออกซิเจน ($\ce{O2}$) & $\ce{O2 + 4H+ + 4e- \to 2H2O}$ & $+1.23$ & ออกซิเจนระดับปกติ \\
+ไอออนไนเตรต ($\ce{NO3^-}$) & $\ce{NO3^- + 3H+ + 2e- \to HNO2 + H2O}$ & $+0.94$ & แหล่งธาตุอาหารพืชเสถียร \\
+ไอออนไนไตรต์ ($\ce{NO2^-}$) & $\ce{NO2^- + 2H+ + e- \to NO + H2O}$ & $+0.99$ & สารตั้งต้นสังเคราะห์ไนเตรต \\
+อนุมูลซูเปอร์ออกไซด์ ($\ce{O2^{\cdot -}}$) & $\ce{O2^{\cdot -} + 2H+ + e- \to H2O2}$ & $+0.89$ & อนุมูลประจุลบ \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{กลไกเคมีควอนตัมของการสังเคราะห์ปุ๋ยยูเรียเขียวด้วยพลาสมา}
+\label{app:sec_urea_mechanism}
+
+\index{ปุ๋ยยูเรียเขียว}\index{การตรึงไนโตรเจน}
+การสังเคราะห์ยูเรียคาร์บอนสุทธิเป็นศูนย์จากก๊าซ $\ce{N2}$, $\ce{CO2}$ และ $\ce{H2O}$ เกิดขึ้นผ่านกระบวนการควอนตัม 3 ขั้นตอน:
+
+\begin{equation}
+\label{eq:app_urea_step1}
+\text{ขั้นที่ 1 (การสลายพันธะด้วยพลาสมา):}\quad \ce{N2} + \ce{CO2} + 2\ce{H2O} \xrightarrow{e^-,\ T_e > 2.5\text{ eV}} 2\ce{N^*} + \ce{CO^*} + \ce{\cdot OH} + \ce{\cdot H} + \ce{O_2}
+\end{equation}
+
+\begin{equation}
+\label{eq:app_urea_step2}
+\text{ขั้นที่ 2 (การกำเนิดอนุมูลอะมิโนและคาร์บอนิล):}\quad \ce{N^*} + 2\ce{\cdot H} \to \ce{\cdot NH2},\qquad \ce{CO^*} + \ce{M} \to \ce{CO} + \ce{M}
+\end{equation}
+
+\begin{equation}
+\label{eq:app_urea_step3}
+\text{ขั้นที่ 3 (การสังเคราะห์ยูเรียบนตัวเร่งปฏิกิริยา):}\quad 2\ce{\cdot NH2} + \ce{CO} \xrightarrow{\ce{Cu/g-C3N4}} \ce{(NH2)2CO}\quad (\Delta H^\circ = -133.5\ \si{\kilo\joule\per\mole})
+\end{equation}
+
+\clearpage

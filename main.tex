@@ -62,7 +62,23 @@
 \include{chapters/ch11}
 
 % -------------------------------------------------------------------------
-% Back Matter (References, Glossary, Index)
+% Appendices (ภาคผนวก 6 ภาคบริบูรณ์ ก - ฉ)
+% -------------------------------------------------------------------------
+\appendix
+\renewcommand{\chaptertitlename}{ภาคผนวก}
+\renewcommand{\appendixname}{ภาคผนวก}
+\newcommand{\thaialph}[1]{\ifcase#1\or ก\or ข\or ค\or ง\or จ\or ฉ\or ช\or ซ\or ฌ\or ญ\fi}
+\renewcommand{\thechapter}{\thaialph{\value{chapter}}}
+
+\include{appendices/app_a}
+\include{appendices/app_b}
+\include{appendices/app_c}
+\include{appendices/app_d}
+\include{appendices/app_e}
+\include{appendices/app_f}
+
+% -------------------------------------------------------------------------
+% Back Matter (References, Index)
 % -------------------------------------------------------------------------
 \backmatter
 
