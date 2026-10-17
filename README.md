@@ -1,7 +1,7 @@
 # plasma-agri-xai
 
-## พลาสมาฟิสิกส์ เพื่อการเกษตรและสิ่งแวดล้อม: จากทฤษฎีสู่นวัตกรรมความยั่งยืน
-**Plasma Physics for Agriculture and Environment: From Fundamental Discharge Physics to Sustainable Smart Agro-AI Innovation**
+## พลาสมาฟิสิกส์และปัญญาประดิษฐ์ เพื่อการเกษตรและสิ่งแวดล้อมอัจฉริยะ
+**Plasma Physics and Artificial Intelligence for Smart Agriculture and Environment: From Discharge Physics and Deep Learning to Sustainable Innovations**
 
 **ผู้แต่ง / Author:**  
 **ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา (Asst. Prof. Dr. Chewa Thassana)**  
@@ -34,7 +34,7 @@
 
 ## 🎨 สถาปัตยกรรมหน้าปก (Academic Book Cover Architecture)
 - **ขนาดมาตรฐานสากล:** 6 × 9 นิ้ว (Royal/Pocket 8vo), สัดส่วน 2:3 Full-Bleed 100%
-- **ชื่อเรื่องยักษ์ 2.5 เท่า (55 pt):** ตัวอักษรหลากสีตามสเปกตรัมฟิสิกส์พลาสมา (`พลาส` ม่วง $\to$ `มา` ฟ้าคราม $\to$ `ฟิ` เขียวมรกต $\to$ `สิกส์` ส้มสุริยะ) พร้อมระบบเงาขาวบริสุทธิ์ Dual-Layer Micro Drop-Shadow
+- **ชื่อเรื่องไฮไลต์แบบสเปกตรัม (38 pt):** ตัวอักษรหลากสีตามสเปกตรัมฟิสิกส์พลาสมา (`พลาสมา` ม่วง $\to$ `ฟิสิกส์` ฟ้าคราม $\to$ `และปัญญา` เขียวมรกต $\to$ `ประดิษฐ์` ส้มสุริยะ) พร้อมระบบเงาขาวบริสุทธิ์ Dual-Layer Micro Drop-Shadow ไร้กรอบทึบบดบังภาพ
 - **บริบทพลาสมาเกษตร:** จำลองระบบ **Atmospheric $\text{N}_2$ Fixation to Green Urea**:
   $$\text{N}_2 + \text{CO}_2 + 2\text{H}_2\text{O} \xrightarrow{\text{Plasma}} (\text{NH}_2)_2\text{CO} + 2\text{O}_2$$
 - **ผู้แต่ง:** ผศ.ดร.ชีวะ ทัศนา ในชุดเสื้อแจ็กเก็ตปฏิบัติการวิจัยสีขาว (Smart Field Researcher Jacket) พร้อมจอโฮโลแกรมสเปกโตรมิเตอร์ OES วัดการสลายตัวของไนโตรเจนที่ $337\text{ nm}$
