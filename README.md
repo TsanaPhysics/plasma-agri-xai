@@ -1,7 +1,7 @@
 # plasma-agri-xai
 
 ## พลาสมาฟิสิกส์และปัญญาประดิษฐ์ เพื่อการเกษตรและสิ่งแวดล้อม
-**Plasma Physics and Artificial Intelligence for Smart Agriculture and Environment: From Discharge Physics and Deep Learning to Sustainable Innovations**
+**Plasma Physics and Artificial Intelligence for Agriculture and Environment: From Discharge Physics and Deep Learning to Sustainable Innovations**
 
 **ผู้แต่ง / Author:**  
 **ผู้ช่วยศาสตราจารย์ ดร.ชีวะ ทัศนา (Asst. Prof. Dr. Chewa Thassana)**  
