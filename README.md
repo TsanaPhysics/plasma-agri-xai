@@ -1,6 +1,6 @@
 # plasma-agri-xai
 
-## พลาสมาฟิสิกส์และปัญญาประดิษฐ์ เพื่อการเกษตรและสิ่งแวดล้อมอัจฉริยะ
+## พลาสมาฟิสิกส์และปัญญาประดิษฐ์ เพื่อการเกษตรและสิ่งแวดล้อม
 **Plasma Physics and Artificial Intelligence for Smart Agriculture and Environment: From Discharge Physics and Deep Learning to Sustainable Innovations**
 
 **ผู้แต่ง / Author:**  
